@@ -8,7 +8,7 @@ class Trainer(object):
         self.model = model
         self.criterion = criterion
         self.optimizer = optimizer
-        self.device
+        self.device = device
 
     def _make_batch(cls, data, batch_size=100):
         N, D, T = data.shape

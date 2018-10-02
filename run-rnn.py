@@ -44,11 +44,11 @@ trainer.train(max_epoch, batch_size)
 
 # Predict sin(x)
 input, _ = generate_dataset(N=1, T=sequence_len)
-input_tensor = torch.tensor(input, dtype=torch.float)
+input_tensor = torch.tensor(input, dtype=torch.float).to(device)
 input_tensor = input_tensor.transpose(1, 2)
 
 output_tensor = model(input_tensor)
-output = output_tensor.detach().numpy()
+output = output_tensor.cpu().detach().numpy()
 
 input = input.reshape(sequence_len)
 output = output.reshape(sequence_len)
