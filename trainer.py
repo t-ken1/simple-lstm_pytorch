@@ -2,12 +2,13 @@ import torch
 
 
 class Trainer(object):
-    def __init__(self, xs, ys, model, criterion, optimizer):
+    def __init__(self, xs, ys, model, criterion, optimizer, device):
         self.xs = xs
         self.ys = ys
         self.model = model
         self.criterion = criterion
         self.optimizer = optimizer
+        self.device = device
 
     def _make_batch(cls, data, batch_size=100):
         N, D, T = data.shape
@@ -30,8 +31,8 @@ class Trainer(object):
 
             for x_batch, y_batch in zip(x_batches, y_batches):
                 # torch.tensor形式への変換
-                x = torch.tensor(x_batch, dtype=torch.float)
-                y = torch.tensor(y_batch, dtype=torch.float)
+                x = torch.tensor(x_batch, dtype=torch.float).to(self.device)
+                y = torch.tensor(y_batch, dtype=torch.float).to(self.device)
 
                 # lstmへの入力は (N, T, D) だが、現在は (N, D, T) なので
                 # 軸を入れ替える

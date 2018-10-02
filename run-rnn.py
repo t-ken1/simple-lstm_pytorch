@@ -11,6 +11,7 @@ from trainer import Trainer
 
 
 # Configuration for network.
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 hidden_dim = 5
 num_layers = 2
 
@@ -29,7 +30,7 @@ xs, ys = generate_dataset(N=data_size, T=sequence_len)
 # Create network.
 input_dim = xs.shape[1]
 output_dim = ys.shape[1]
-model = MyRNN(input_dim, hidden_dim, output_dim, num_layers=num_layers)
+model = MyRNN(input_dim, hidden_dim, output_dim, num_layers).to(device)
 print(model)
 
 
@@ -37,17 +38,17 @@ print(model)
 criterion = nn.MSELoss()
 optimizer = Adam(model.parameters(), lr=lr)
 
-trainer = Trainer(xs, ys, model, criterion, optimizer)
+trainer = Trainer(xs, ys, model, criterion, optimizer, device)
 trainer.train(max_epoch, batch_size)
 
 
 # Predict sin(x)
 input, _ = generate_dataset(N=1, T=sequence_len)
-input_tensor = torch.tensor(input, dtype=torch.float)
+input_tensor = torch.tensor(input, dtype=torch.float).to(device)
 input_tensor = input_tensor.transpose(1, 2)
 
 output_tensor = model(input_tensor)
-output = output_tensor.detach().numpy()
+output = output_tensor.cpu().detach().numpy()
 
 input = input.reshape(sequence_len)
 output = output.reshape(sequence_len)
