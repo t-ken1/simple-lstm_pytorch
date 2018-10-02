@@ -11,6 +11,7 @@ from trainer import Trainer
 
 
 # Configuration for network.
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 hidden_dim = 5
 num_layers = 2
 
@@ -29,7 +30,7 @@ xs, ys = generate_dataset(N=data_size, T=sequence_len)
 # Create network.
 input_dim = xs.shape[1]
 output_dim = ys.shape[1]
-model = MyRNN(input_dim, hidden_dim, output_dim, num_layers=num_layers)
+model = MyRNN(input_dim, hidden_dim, output_dim, num_layers).to(device)
 print(model)
 
 
