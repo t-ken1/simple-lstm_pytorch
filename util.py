@@ -7,7 +7,7 @@ def generate_dataset(N=100, T=100):
     for n in range(N):
         x = np.arange(0, T)
         y = np.sin(2.0 * np.pi * x / T) + 0.05 * \
-            np.random.uniform(-1.0, 1.0, len(y))
+            np.random.uniform(-1.0, 1.0, T)
 
         xs.append(x)
         ys.append(y)
