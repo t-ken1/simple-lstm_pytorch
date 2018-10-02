@@ -25,8 +25,8 @@ class Trainer(object):
         for epoch in range(max_epoch):
             running_loss = 0.0
 
-            x_batches = _make_batch(xs, batch_size=batch_size)
-            y_batches = _make_batch(ys, batch_size=batch_size)
+            x_batches = self._make_batch(self.xs, batch_size=batch_size)
+            y_batches = self._make_batch(self.ys, batch_size=batch_size)
 
             for x_batch, y_batch in zip(x_batches, y_batches):
                 # torch.tensor形式への変換
@@ -39,17 +39,17 @@ class Trainer(object):
                 y = y.transpose(1, 2)
 
                 # optimizerの初期化
-                optimizer.zero_grad()
+                self.optimizer.zero_grad()
 
                 # モデルに入力を入れて誤差の計算
-                output = model(x)
-                loss = criterion(output, y)
+                output = self.model(x)
+                loss = self.criterion(output, y)
 
                 # 誤差を元に逆伝播を行い、パラメータを更新
                 loss.backward()
-                optimizer.step()
+                self.optimizer.step()
 
                 running_loss += loss.item()
 
-                if epoch % 20 == 0:
-                    print('epoch: %d | loss: %.3f' % (epoch, running_loss))
+            if epoch % 20 == 0:
+                print('epoch: %d | loss: %.3f' % (epoch, running_loss))
