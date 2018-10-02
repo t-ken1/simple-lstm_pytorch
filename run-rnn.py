@@ -38,7 +38,7 @@ print(model)
 criterion = nn.MSELoss()
 optimizer = Adam(model.parameters(), lr=lr)
 
-trainer = Trainer(xs, ys, model, criterion, optimizer)
+trainer = Trainer(xs, ys, model, criterion, optimizer, device)
 trainer.train(max_epoch, batch_size)
 
 
